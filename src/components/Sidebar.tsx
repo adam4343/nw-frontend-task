@@ -32,9 +32,7 @@ function SidebarItems() {
     }
     return items.map((item, index) => (
         <React.Fragment key={index}>
-            <ListItem
-                key={index}
-            >
+            <ListItem key={index}>
                 <ListItemButton
                     selected={selected === item.href}
                     role="menuitem"
@@ -51,7 +49,6 @@ function SidebarItems() {
 }
 
 export default function Sidebar() {
-
     return (
         <Sheet
             className="Sidebar"
@@ -78,7 +75,7 @@ export default function Sidebar() {
             <GlobalStyles
                 styles={(theme) => ({
                     ':root': {
-                        '--Sidebar-width': '220px',
+                        '--Sidebar-width': '230px',
                         [theme.breakpoints.up('lg')]: {
                             '--Sidebar-width': '240px',
                         },
@@ -104,9 +101,8 @@ export default function Sidebar() {
                 }}
                 onClick={() => closeSidebar()}
             />
-            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography level="title-lg">Domain Management</Typography>
-                <ColorSchemeToggle sx={{ ml: 'auto' }} />
             </Box>
             <Box
                 sx={{

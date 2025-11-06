@@ -5,11 +5,11 @@ import { usePageData } from '../../context/page-data/page-data.context.ts'
 
 export default function Banner() {
     const { setPageData } = usePageData()
+    const { id } = useParams()
 
     useEffect(() => {
-        setPageData({ title: 'Banners > ' })
-    }, [setPageData])
-    const { id } = useParams()
+        setPageData({ title: `Banner ${id}` })
+    }, [id, setPageData])
 
     return (
         <Grid

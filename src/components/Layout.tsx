@@ -1,34 +1,28 @@
 import { CssVarsProvider } from '@mui/joy/styles'
 import CssBaseline from '@mui/joy/CssBaseline'
-import Box from '@mui/joy/Box'
-import { Outlet } from 'react-router-dom'
-
+import { Outlet, useLocation, useParams, Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
-import Typography from '@mui/joy/Typography'
 import { usePageData } from '../context/page-data/page-data.context.ts'
-import Button from '@mui/joy/Button'
-import Sheet from '@mui/joy/Sheet'
-import Divider from '@mui/joy/Divider'
-
+import { Sheet, Box, Divider, Typography, Button } from '@mui/joy'
+import Breadcrumbs from '@mui/joy/Breadcrumbs'
+import { KeyboardArrowRight } from '@mui/icons-material'
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 export default function Layout() {
     const { pageData } = usePageData()
+    const location = useLocation()
+    const { id } = useParams()
+
+    const isSinglePage = !!(location.pathname.includes('/banners/') && id)
+
     return (
         <CssVarsProvider>
             <CssBaseline />
-            <Box sx={{ display: 'flex', minHeight: '100dvh', overflow: 'hidden' }}>
-                <Header />
+            <Box sx={{ display: 'flex', minHeight: '100dvh', overflow: 'hidden' }}>              
                 <Sidebar />
                 <Box
                     component="main"
                     sx={{
-                        px: { xs: 2, md: 6 },
-                        pt: {
-                            xs: 'calc(12px + var(--Header-height))',
-                            sm: 'calc(12px + var(--Header-height))',
-                            md: 3,
-                        },
-                        pb: { xs: 2, sm: 2, md: 3 },
                         flex: 1,
                         display: 'flex',
                         flexDirection: 'column',
@@ -40,34 +34,93 @@ export default function Layout() {
                 >
                     <Sheet
                         sx={{
-                            height: '4dvh',
                             display: 'flex',
-                            gap: 1,
-                            paddingLeft: 2,
-                            paddingRight: 2,
-                            flexDirection: { xs: 'column', sm: 'row' },
-                            alignItems: { xs: 'start', sm: 'center' },
-                            flexWrap: 'wrap',
-                            justifyContent: 'space-between',
+                            gap: 1.5,
+                            py: 2.5,
+                            px: 3,
+                            flexDirection: "column",
                         }}
                     >
-                        <Typography
-                            level="h2"
-                            component="h1"
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                            }}
                         >
-                            {pageData.title}
-                        </Typography>
-
-                        {pageData.button && (
-                            <Button
-                                onClick={pageData.button.click}
-                                color="primary"
-                                startDecorator={pageData.button.icon}
+                            <Breadcrumbs
+                                aria-label="breadcrumbs"
+                                separator={<KeyboardArrowRight />}
                                 size="sm"
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }}
                             >
-                                {pageData.button.label}
-                            </Button>
-                        )}
+                                <Typography
+                                    color="neutral"
+                                    sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                                >
+                                    <HomeRoundedIcon fontSize="small" />
+                                </Typography>
+
+                                <Box
+                                    component={Link}
+                                    to="/banners"
+                                    sx={{
+                                        fontSize: 13,
+                                        fontWeight: !isSinglePage ? 'bold' : 'normal',
+                                        color: 'text.tertiary',
+                                        textDecoration: 'none',
+                                        '&:hover': {
+                                            color: 'primary.plainColor',
+                                            textDecoration: 'underline',
+                                        },
+                                    }}
+                                >
+                                    Banners
+                                </Box>
+
+                                {isSinglePage && (
+                                    <Typography
+                                        color="primary"
+                                        fontSize={13}
+                                    >
+                                        {id}
+                                    </Typography>
+                                )}
+                            </Breadcrumbs>
+                            <Header />
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                flexWrap: 'wrap',
+                                gap: 1,
+                            }}
+                        >
+                            <Typography
+                                level="h2"
+                                component="h1"
+                            >
+                                {pageData.title}
+                            </Typography>
+
+                            {pageData.button && (
+                                <Button
+                                    onClick={pageData.button.click}
+                                    color="primary"
+                                    startDecorator={pageData.button.icon}
+                                    size="sm"
+                                >
+                                    {pageData.button.label}
+                                </Button>
+                            )}
+                        </Box>
                     </Sheet>
                     <Divider />
                     <Sheet
