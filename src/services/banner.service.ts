@@ -6,7 +6,7 @@ class BannerService {
     private readonly BANNER_KEY = 'banners'
 
     async createBanner(banner: BannerDto) {
-        this.saveBanners([banner, ...this.listBanners()])
+        this.saveBanners([...this.listBanners(), banner])
     }
 
     async getBanners(page: PageRequest) {
@@ -28,11 +28,13 @@ class BannerService {
             }
         }
 
+        const maxPageNumber = total === 0 ? 0 : Math.ceil(total / page.pageSize) - 1
+        
         return {
             content: banners,
             pageSize: page.pageSize,
             pageNumber: page.page,
-            maxPageNumber: total / page.pageSize,
+            maxPageNumber: maxPageNumber,
         } as PageResponse<BannerDto>
     }
 

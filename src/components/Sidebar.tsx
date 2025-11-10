@@ -9,10 +9,9 @@ import ListItemContent from '@mui/joy/ListItemContent'
 import Typography from '@mui/joy/Typography'
 import Sheet from '@mui/joy/Sheet'
 import ImageIcon from '@mui/icons-material/Image'
-
-import ColorSchemeToggle from './ColorSchemeToggle'
 import { closeSidebar } from '../utils'
 import { useLocation, useNavigate } from 'react-router-dom'
+import ColorSchemeToggle from './ColorSchemeToggle'
 
 const items = [
     {
@@ -29,6 +28,7 @@ function SidebarItems() {
     const handleNavigation = (href: string) => {
         setSelected(href)
         navigate(href)
+        closeSidebar()
     }
     return items.map((item, index) => (
         <React.Fragment key={index}>
@@ -70,6 +70,7 @@ export default function Sidebar() {
                 gap: 2,
                 borderRight: '1px solid',
                 borderColor: 'divider',
+                backgroundColor: 'background.surface',
             }}
         >
             <GlobalStyles
@@ -126,6 +127,9 @@ export default function Sidebar() {
                 >
                     <SidebarItems />
                 </List>
+            </Box>
+            <Box sx={{ mt: 'auto', pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+                <ColorSchemeToggle />
             </Box>
         </Sheet>
     )

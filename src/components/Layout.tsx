@@ -8,6 +8,7 @@ import { Sheet, Box, Divider, Typography, Button } from '@mui/joy'
 import Breadcrumbs from '@mui/joy/Breadcrumbs'
 import { KeyboardArrowRight } from '@mui/icons-material'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
+import FAB from '../components/FAB.tsx'
 export default function Layout() {
     const { pageData } = usePageData()
     const location = useLocation()
@@ -18,7 +19,7 @@ export default function Layout() {
     return (
         <CssVarsProvider>
             <CssBaseline />
-            <Box sx={{ display: 'flex', minHeight: '100dvh', overflow: 'hidden' }}>              
+            <Box sx={{ display: 'flex', minHeight: '100dvh', overflow: 'hidden',  }}>              
                 <Sidebar />
                 <Box
                     component="main"
@@ -35,10 +36,11 @@ export default function Layout() {
                     <Sheet
                         sx={{
                             display: 'flex',
-                            gap: 1.5,
-                            py: 2.5,
-                            px: 3,
+                            gap: 2,
+                            py: 3,
+                            px: { xs: 3, sm: 4, md: 5 },
                             flexDirection: "column",
+                            backgroundColor: 'background.body',
                         }}
                     >
                         <Box
@@ -106,20 +108,27 @@ export default function Layout() {
                             <Typography
                                 level="h2"
                                 component="h1"
+                                sx={{
+                                    fontWeight: 600,
+                                    fontSize: { xs: '1.75rem', sm: '2rem' }
+                                }}
                             >
                                 {pageData.title}
                             </Typography>
 
-                            {pageData.button && (
-                                <Button
-                                    onClick={pageData.button.click}
-                                    color="primary"
-                                    startDecorator={pageData.button.icon}
-                                    size="sm"
-                                >
-                                    {pageData.button.label}
-                                </Button>
-                            )}
+                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                                {!isSinglePage && location.pathname === '/banners' && <FAB />}
+                                {pageData.button && (
+                                    <Button
+                                        onClick={pageData.button.click}
+                                        color="primary"
+                                        startDecorator={pageData.button.icon}
+                                        size="sm"
+                                    >
+                                        {pageData.button.label}
+                                    </Button>
+                                )}
+                            </Box>
                         </Box>
                     </Sheet>
                     <Divider />
@@ -129,7 +138,8 @@ export default function Layout() {
                             overflowY: 'auto',
                             width: '100%',
                             height: '90dvh',
-                            padding: 2,
+                            padding: { xs: 2, sm: 3, md: 4 },
+                            backgroundColor: 'background.body',
                         }}
                     >
                         <Outlet />
